@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Missão Vínculos - SCFV</title>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(#89f7fe, #66a6ff);
+    text-align: center;
+    margin: 0;
+    padding: 20px 20px 70px;
+}
+
+.card {
+    background: white;
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 550px;
+    margin: 40px auto;
+    box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+}
+
+h1 {
+    color: #2c7be5;
+}
+
+input {
+    padding: 12px;
+    width: 80%;
+    font-size: 16px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+}
+
+button {
+    margin-top: 15px;
+    padding: 15px;
+    width: 100%;
+    font-size: 16px;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    background: #2c7be5;
+    color: white;
+}
+
+button:hover {
+    background: #1a5dcc;
+}
+
+.score {
+    margin-top: 20px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+footer {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background: #ffffffcc;
+    padding: 10px;
+    font-size: 14px;
+    border-top: 1px solid #ddd;
+}
+</style>
+</head>
+
+<body>
+
+<div class="card" id="game"></div>
+
+<footer>
+Criado por Leonardo Wanderley / Prefeitura Municipal de Figueira
+</footer>
+
+<script>
+let stage = 0;
+let points = 0;
+let name = "";
+
+const questions = [
+    { q: "Um amigo está triste. O que você faz?", good: "Converso e tento ajudar", bad: "Ignoro" },
+    { q: "Um colega caiu brincando.", good: "Ajudo a levantar", bad: "Dou risada" },
+    { q: "Chegou alguém novo no grupo.", good: "Chamo para brincar", bad: "Deixo sozinho" },
+    { q: "Dois amigos brigaram.", good: "Ajudo a conversar", bad: "Incentivo a briga" },
+    { q: "Um amigo errou numa brincadeira.", good: "Apoio e incentivo", bad: "Zombo dele" },
+    { q: "Alguém não esperou a vez.", good: "Lembro o combinado", bad: "Grito" },
+    { q: "Um colega está quieto hoje.", good: "Pergunto se está tudo bem", bad: "Finjo que não vi" },
+    { q: "Um amigo precisa de ajuda.", good: "Ajudo com cuidado", bad: "Não é problema meu" },
+    { q: "Na roda de conversa.", good: "Escuto o outro", bad: "Interrompo" },
+    { q: "Um amigo ficou de fora da brincadeira.", good: "Incluo ele", bad: "Continuo sem ele" },
+    { q: "Um colega errou uma regra.", good: "Explico com calma", bad: "Brigo com ele" },
+    { q: "No SCFV, ser amigo é:", good: "Cuidar e respeitar", bad: "Mandar nos outros" }
+];
+
+function telaInicial() {
+    document.getElementById("game").innerHTML = `
+        <h1>🌈 Missão Vínculos</h1>
+        <p>Digite seu nome para começar:</p>
+        <input type="text" id="playerName" placeholder="Seu nome">
+        <button onclick="startGame()">Começar</button>
+    `;
+}
+
+function startGame() {
+    name = document.getElementById("playerName").value.trim();
+    if (name === "") {
+        alert("Por favor, escreva seu nome 😊");
+        return;
+    }
+    loadQuestion();
+}
+
+function loadQuestion() {
+    if (stage < questions.length) {
+        document.getElementById("game").innerHTML = `
+            <h1>Olá, ${name}! 🌟</h1>
+            <p>${questions[stage].q}</p>
+            <button onclick="answer(true)">${questions[stage].good}</button>
+            <button onclick="answer(false)">${questions[stage].bad}</button>
+            <div class="score">⭐ Estrelas: ${points}</div>
+        `;
+    } else {
+        endGame();
+    }
+}
+
+function answer(correct) {
+    if (correct) {
+        points++;
+        alert("Muito bem! Você fortaleceu um vínculo 💙");
+    } else {
+        alert("Vamos tentar uma atitude mais gentil 😊");
+    }
+    stage++;
+    loadQuestion();
+}
+
+function endGame() {
+    document.getElementById("game").innerHTML = `
+        <h1>🎉 Parabéns, ${name}!</h1>
+        <p>
+        Acolher os amigos, ouvir com respeito e ajudar faz com que todos
+        se sintam felizes, seguros e importantes.
+        </p>
+        <p>
+        No SCFV, crescer juntos é sempre melhor.
+        </p>
+        <h2>⭐ Estrelas: ${points} de ${questions.length}</h2>
+        <strong>Você faz a diferença no grupo! 🌈</strong>
+    `;
+}
+
+telaInicial();
+</script>
+
+</body>
+</html>
